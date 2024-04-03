@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-Am.Testing.Web-3d28f4dd-6873-41fb-98bb-bbb6800012a7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2" />
+    <PackageReference Include="Radzen.Blazor" Version="4.29.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Pages\CoverTypes\v1\" />
+    <Folder Include="Components\Pages\Genres\v1\" />
+    <Folder Include="Components\Pages\Settings\Enumerations\v1\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Am.Testing.App\Am.Testing.App.csproj" />
+    <ProjectReference Include="..\Am.Testing.Domain\Am.Testing.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
