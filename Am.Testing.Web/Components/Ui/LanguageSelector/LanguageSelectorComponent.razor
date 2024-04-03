@@ -1,0 +1,49 @@
+﻿﻿@using System.Globalization
+@inject NavigationManager Navigations
+@inject ILocalStorageService LocalStorage
+@inject IStringLocalizer<LanguageSelectorComponent> Localizer
+
+<RadzenCard>
+
+    <div class="row">
+        <div class="col-2">
+            @Localizer["ChooseLanguage"]
+        </div>
+
+        <div class="col-2">
+            <select class="form-control" @bind="Language" style="width:400px;">
+                @foreach (var culture in languages)
+                {
+                    <option value="@culture">@culture.DisplayName</option>
+                }
+            </select>
+        </div>
+    </div>
+
+</RadzenCard>
+
+
+@code {
+
+    CultureInfo[] languages = new[]
+    {
+        new CultureInfo("sk-SK"),
+        new CultureInfo("en-US"),
+    };
+
+    CultureInfo Language
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                // Set the culture in LocalStorage
+                LocalStorage.SetItemAsync("language", value.Name);
+
+                // Load the Current URL
+                Navigations.NavigateTo(Navigations.Uri);
+            }
+        }
+    }
+}

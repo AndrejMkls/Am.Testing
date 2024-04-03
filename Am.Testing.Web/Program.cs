@@ -1,12 +1,14 @@
 using Am.Testing.App.Database.Main;
 using Am.Testing.Web.Components;
 using Am.Testing.Web.Components.Account;
+using Am.Testing.Web.Components.Extensions;
 using Am.Testing.Web.Data;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,5 +91,9 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+
+//await app.SetDefaultLanguage();
+
 
 app.Run();

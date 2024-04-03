@@ -1,0 +1,36 @@
+﻿@inject NavigationManager Navigations
+@inject IStringLocalizer<DocumentationNavigation> Localizer
+
+<div class="d-flex justify-content-start gap-1 flex-wrap mb-2">
+
+    @foreach (var item in pages)
+    {
+        <RadzenLink Path="@item.Key">
+            <RadzenButton ButtonStyle="@(item.Key == Uri ? ButtonStyle.Dark : ButtonStyle.Light)" Size="ButtonSize.ExtraSmall" Text="@item.Value" />
+        </RadzenLink>
+    }
+
+</div>
+
+@code {
+
+    private readonly Dictionary<string, string> pages = new()
+    {
+        { "/project/documentation/specs", "Projektová dokumentácia"},
+        { "/project/documentation/requirements", "Katalóg požiadaviek"},
+        { "/project/documentation/entities", "Entity"},
+        { "/project/documentation/wireframes", "Wireframes"},
+        
+    };
+
+    private string? Uri;
+
+    protected override void OnInitialized()
+    {
+        Uri = "/" + Navigations.Uri.Replace(Navigations.BaseUri, "");
+    }
+
+}
+
+
+
