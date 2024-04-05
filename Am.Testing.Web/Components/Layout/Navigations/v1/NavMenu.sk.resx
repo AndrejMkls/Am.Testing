@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Authors" xml:space="preserve">
-    <value>Authors</value>
+    <value>Autori</value>
   </data>
   <data name="Books" xml:space="preserve">
-    <value>Books</value>
+    <value>Knihy</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Home</value>
+    <value>Domov</value>
   </data>
   <data name="Project" xml:space="preserve">
-    <value>Project</value>
+    <value>Projekt</value>
   </data>
   <data name="Publishers" xml:space="preserve">
-    <value>Publishers</value>
+    <value>Vydavateľstvá</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>Nastavenia</value>
   </data>
 </root>

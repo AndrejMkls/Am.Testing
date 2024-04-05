@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+@using System.Globalization
+@using Microsoft.AspNetCore.Localization
+
 <html lang="en">
 
 <head>
@@ -35,4 +38,14 @@
     private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
         ? null
         : InteractiveServer;
+
+    protected override void OnInitialized()
+    {
+        HttpContext?.Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(
+                new RequestCulture(
+                    CultureInfo.CurrentCulture,
+                    CultureInfo.CurrentUICulture)));
+    }
 }

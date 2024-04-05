@@ -92,6 +92,9 @@ app.MapRazorComponents<App>()
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
 
+app.UseRequestLocalization(new RequestLocalizationOptions()
+    .AddSupportedCultures(new[] { "en-US", "sk-SK" })
+    .AddSupportedUICultures(new[] { "en-US", "sk-SK" }));
 
 //await app.SetDefaultLanguage();
 
