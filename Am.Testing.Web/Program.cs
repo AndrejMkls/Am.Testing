@@ -1,4 +1,5 @@
 using Am.Testing.App.Database.Main;
+using Am.Testing.Web.BackgroundServices;
 using Am.Testing.Web.Components;
 using Am.Testing.Web.Components.Account;
 using Am.Testing.Web.Components.Extensions;
@@ -12,6 +13,8 @@ using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -21,7 +24,7 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-builder.Services.AddDbContext<MainDbContext>( options => options.UseSqlite()); 
+builder.Services.AddDbContext<MainDbContext>( options => options.UseNpgsql()); 
 
 builder.Services.AddAuthentication(options =>
     {
@@ -33,7 +36,7 @@ builder.Services.AddAuthentication(options =>
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite());
+    options.UseNpgsql(connection));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -44,6 +47,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
+builder.Services.AddHostedService<DatabaseSeedService>();
 
 builder.Services.AddBlazoredLocalStorage();
 

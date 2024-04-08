@@ -13,13 +13,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     <PackageReference Include="Radzen.Blazor" Version="4.29.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\Pages\CoverTypes\v1\" />
-    <Folder Include="Components\Pages\Genres\v1\" />
-    <Folder Include="Components\Pages\Settings\Enumerations\v1\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

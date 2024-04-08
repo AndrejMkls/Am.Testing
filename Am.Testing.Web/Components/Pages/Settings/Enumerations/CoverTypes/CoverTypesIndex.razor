@@ -1,0 +1,152 @@
+﻿@page "/settings/enumerations/covertypes/index"
+
+@using Am.Testing.Domain.Entities
+
+@inherits BasePage
+@inject MainDbContext DbContext 
+
+<h3>CoverTypesIndex</h3>
+
+<RadzenDataGrid @ref=grid TItem="CoverType" Data="@items" 
+                AllowSorting=true AllowFiltering=true FilterMode="FilterMode.Simple" AllowPaging=true PageSize="10" 
+                Density="Density.Default">
+
+    <EmptyTemplate>
+
+    </EmptyTemplate>
+
+    <Columns>
+
+        <RadzenDataGridColumn TItem="CoverType" Property="Name" Title="Názov">
+            <EditTemplate>
+                <RadzenTextBox @bind-Value=context.Name />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="CoverType" Filterable="false" Sortable="false">
+
+            <Template>
+
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" 
+                              Click="@(args => EditRow(context))" @onclick:stopPropagation="true">
+                </RadzenButton>
+
+                <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1"
+                              Click="@(args => DeleteRow(context))" @onclick:stopPropagation="true">
+                </RadzenButton>
+
+            </Template>
+
+            <EditTemplate>
+                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium"
+                              Click="@((args) => SaveRow(context))">
+                </RadzenButton>
+                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" class="my-1 ms-1"
+                              Click="@((args) => CancelEdit(context))">
+                </RadzenButton>
+            </EditTemplate>
+
+        </RadzenDataGridColumn>
+
+
+    </Columns>
+
+</RadzenDataGrid>
+
+
+@code {
+
+    private RadzenDataGrid<CoverType>? grid;
+    IEnumerable<CoverType> items = Enumerable.Empty<CoverType>();
+    private CoverType? itemToUpdate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        var list = await DbContext.CoverTypes.ToListAsync();
+
+        if (list.Any())
+        {
+            items = list;
+        }
+
+    }
+
+    void Reset()
+    {
+        itemToUpdate = null;
+    }
+
+    async Task EditRow(CoverType item)
+    {
+        itemToUpdate = (CoverType)item.Clone();
+        if (grid is not null)
+        {
+            await grid.EditRow(item);
+        }
+    }
+
+    private async Task DeleteRow(CoverType item)
+    {
+        var confirmed = await Dialogs.Confirm(message: $"Naozaj chcete vymazať položku?",
+                                                title: "Vymazať",
+                                                new ConfirmOptions() { CancelButtonText = "Nie", OkButtonText = "Áno", CloseDialogOnEsc = true });
+
+        if (confirmed == true)
+        {
+            try
+            {
+                loading = true;
+
+                var result = DbContext.CoverTypes.Remove(item);
+                await DbContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                Notifications.Notify(NotificationSeverity.Error, "Porucha", "Nebolo možné vymazať položku.");
+            }
+            finally
+            {
+                loading = false;
+            }
+        }
+    }
+
+    private async Task OnUpdateRow(CoverType item)
+    {
+        try
+        {
+            var result = DbContext.Update(item);
+            await DbContext.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            Notifications.Notify(NotificationSeverity.Error, "Porucha", "Nebolo možné aktualizovať položku.");
+        }
+
+    }
+
+    private async Task SaveRow(CoverType item)
+    {
+        if (grid is not null)
+            await grid.UpdateRow(item);
+    }
+
+    private void CancelEdit(CoverType item)
+    {
+        if (itemToUpdate is not null)
+        {
+            Reset();
+
+            if (grid is not null)
+                grid.CancelEditRow(item);
+        }
+    }
+
+
+
+}

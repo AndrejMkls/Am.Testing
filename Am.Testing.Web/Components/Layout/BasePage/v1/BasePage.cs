@@ -4,7 +4,7 @@ using Radzen;
 
 namespace Am.Testing.Web.Components.Layout.BasePage.v1
 {
-    public class BasePageV1 : ComponentBase
+    public class BasePage : ComponentBase
     {
         [Inject]
         public required IJSRuntime JsRuntime { get; set; }

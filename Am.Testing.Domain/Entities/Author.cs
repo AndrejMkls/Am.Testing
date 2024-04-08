@@ -15,11 +15,11 @@ namespace Am.Testing.Domain.Entities
         [Key]
         public long Id { get; set; }
 
-        public required string FullName { get; set; }
+        public string FullName { get; set; } = "";
         
-        public required string FirstName { get; set; }
+        public string FirstName { get; set; } = "";
 
-        public required string LastName { get; set; }
+        public string LastName { get; set; } = "";
 
         public string? Biography { get; set; }
 
@@ -27,6 +27,8 @@ namespace Am.Testing.Domain.Entities
 
         public string? Photo { get; set; }
 
-        public string? BirthYear { get; set; }
+        public int? BirthYear { get; set; }
+
+        public string Initials { get => $"{FirstName[..1]}{LastName[..1]}"; }
     }
 }

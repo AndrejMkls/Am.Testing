@@ -1,0 +1,104 @@
+﻿@page "/authors/index/v1"
+@using Am.Testing.Domain.Entities
+
+@inherits BasePage
+@inject IStringLocalizer<AuthorsIndexV1> Localizer
+
+<h3>AuthorsIndexV1</h3>
+
+<div class="d-flex justify-content-end align-items-center">
+    <RadzenLink Path="/authors/create/v1">
+        <RadzenButton Text=@Localizer["CreateNew"] />
+    </RadzenLink>
+    
+</div>
+
+<RadzenTabs>
+    <Tabs>
+        <RadzenTabsItem Text=@Localizer["Cards"]>
+
+            <RadzenDataList TItem="Author" Data="items" WrapItems=true>
+                <Template>
+
+
+                    <RadzenCard Style="max-width: 200px;">
+                        <div class="d-flex justify-content-center">
+                            <RadzenBadge IsPill="@true" Text="@context.Initials" class="rz-ml-2"
+                                         Style="background-color: hsl(5, 69%, 60%)" />
+                        </div>
+                        <div style="min-height:60px; margin-top: 1rem">
+                            <b>@context.FirstName @context.LastName</b>
+                        </div>
+                        <div>
+
+                            <RadzenLink Path="@($"authors/{context.Id}")">
+                                <RadzenButton Text="Otvoriť" class="w-100" Style="background-color: hsl(5, 69%, 60%)" />
+                            </RadzenLink>
+
+                        </div>
+                    </RadzenCard>
+
+
+
+                </Template>
+            </RadzenDataList>
+
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text=@Localizer["Table"]>
+
+            <RadzenDataGrid TItem="Author" Data="items"
+                            AllowFiltering=true FilterMode="FilterMode.Simple"
+                            AllowAlternatingRows=true>
+                <Columns>
+                    
+                    <RadzenDataGridColumn TItem="Author" Property="FirstName" Title="Meno" />
+
+                    <RadzenDataGridColumn TItem="Author" Property="LastName" Title="Priezvisko" />
+
+                    <RadzenDataGridColumn TItem="Author" Property="Nationality" Title="Nationality" />
+
+                    <RadzenDataGridColumn TItem="Author" Property="BirthYear" Title="BirthYear">
+                    </RadzenDataGridColumn>
+
+                </Columns>
+            </RadzenDataGrid>
+
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text=@Localizer["Tree"]>
+
+            <RadzenTree>
+                @foreach (var item in items.Select(x => x.LastName[..1]).Distinct())
+                {
+                    <RadzenTreeItem Text="@item">
+
+                        <ChildContent>
+
+                            @{
+                                var children = items.Where(x => x.LastName[..1] == item);
+                                foreach (var person in children)
+                                {
+                                    string fullname = $"{person.FirstName} {person.LastName}";
+
+                                    <RadzenTreeItem Text="@fullname">
+                                    </RadzenTreeItem>
+                                }
+                            }
+
+                        </ChildContent>
+
+
+                    </RadzenTreeItem>
+                }
+            </RadzenTree>
+
+        </RadzenTabsItem>
+    </Tabs>
+</RadzenTabs>
+
+@code {
+
+    private IEnumerable<Author> items = Enumerable.Empty<Author>(); 
+
+}

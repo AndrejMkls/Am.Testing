@@ -23,7 +23,10 @@ namespace Am.Testing.App.Database.Main
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=.\\db\\main.db");
+            optionsBuilder.UseNpgsql(
+                _configuration.GetConnectionString("DefaultConnection")
+                , b => b.MigrationsAssembly("Am.Testing.Web")
+                );
         
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 

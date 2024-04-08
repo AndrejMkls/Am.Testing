@@ -10,11 +10,16 @@ using System.Threading.Tasks;
 namespace Am.Testing.Domain.Entities
 {
     [Table("cover_type", Schema = "public")]
-    public class CoverType : BaseTimingEntity
+    public class CoverType : BaseTimingEntity, ICloneable
     {
         [Key]
         public long Id { get; set; }
 
         public required string Name { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

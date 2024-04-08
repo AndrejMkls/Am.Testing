@@ -17,11 +17,11 @@ namespace Am.Testing.Entities
          * WHO WHEN WHAT
          */
 
-        public long? CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
-        public long? UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
-        public long? DeletedBy { get; set; }
+        public string? DeletedBy { get; set; }
 
         public DateTime CreatedAt
         {
