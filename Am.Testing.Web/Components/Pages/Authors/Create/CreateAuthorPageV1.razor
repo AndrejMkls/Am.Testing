@@ -4,12 +4,13 @@
 
 @inherits BasePage
 @inject IStringLocalizer<CreateAuthorPageV1> Localizer
+@inject MainDbContext DbContext 
 
-<h3>Vytvoriť novú položku</h3>
+<h3>@Localizer["CreateNewItem"] Vytvoriť novú položku</h3>
 
 <RadzenCard>
 
-    <RadzenTemplateForm Data="@item">
+    <RadzenTemplateForm Data="@item" Submit="@(async (Author args) => { await OnSubmit(args); })">
 
         <div class="row mb-1">
             <div class="col-xl-3 col-12">
@@ -74,6 +75,9 @@
             </div>
         </div>
 
+        <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+
     </RadzenTemplateForm>
 
 </RadzenCard>
@@ -81,8 +85,21 @@
 @code {
 
 
-    private Author item = new(); 
+    private Author item = new();
 
+
+    private async Task OnSubmit(Author output)
+    {
+        await DbContext.Authors.AddAsync(output);
+        await DbContext.SaveChangesAsync();
+
+        Navigations.NavigateTo("/authors/index/v1");
+    }
+
+    void Cancel()
+    {
+        //
+    }
 
 
 

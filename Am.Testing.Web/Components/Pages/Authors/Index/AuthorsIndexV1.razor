@@ -2,9 +2,10 @@
 @using Am.Testing.Domain.Entities
 
 @inherits BasePage
+@inject MainDbContext DbContext
 @inject IStringLocalizer<AuthorsIndexV1> Localizer
 
-<h3>AuthorsIndexV1</h3>
+<h3>@Localizer["Title"]</h3>
 
 <div class="d-flex justify-content-end align-items-center">
     <RadzenLink Path="/authors/create/v1">
@@ -31,7 +32,7 @@
                         </div>
                         <div>
 
-                            <RadzenLink Path="@($"authors/{context.Id}")">
+                            <RadzenLink Path="@($"authors/{context.Id}/v1")">
                                 <RadzenButton Text="Otvoriť" class="w-100" Style="background-color: hsl(5, 69%, 60%)" />
                             </RadzenLink>
 
@@ -61,6 +62,14 @@
                     <RadzenDataGridColumn TItem="Author" Property="BirthYear" Title="BirthYear">
                     </RadzenDataGridColumn>
 
+                    <RadzenDataGridColumn TItem="Author" Property="Id" Title="Id" Filterable=false Sortable=false>
+                        <Template>
+                            <RadzenLink Path="@($"authors/{context.Id}/v1")">
+                                <RadzenButton Text="Otvoriť" class="w-100" Style="background-color: hsl(5, 69%, 60%)" />
+                            </RadzenLink>
+                        </Template>
+                    </RadzenDataGridColumn>
+
                 </Columns>
             </RadzenDataGrid>
 
@@ -82,6 +91,15 @@
                                     string fullname = $"{person.FirstName} {person.LastName}";
 
                                     <RadzenTreeItem Text="@fullname">
+                                        <Template>
+                                            <div class="d-flex justify-content-start align-items-center">
+                                            <span> @fullname </span>
+                                            <div style="width: 50px;"> </div>
+                                                <a href="@($"/authors/{person.Id}/v1")" style="color: black">
+                                                <span class="material-icons me-2">settings</span>
+                                            </a>
+                                        </div>
+                                        </Template>
                                     </RadzenTreeItem>
                                 }
                             }
@@ -101,4 +119,14 @@
 
     private IEnumerable<Author> items = Enumerable.Empty<Author>(); 
 
+    protected override async Task OnInitializedAsync()
+    {
+        var list = await DbContext.Authors.ToListAsync();
+
+        if (list is not null)
+        {
+            items = list;
+        }
+        
+    }
 }

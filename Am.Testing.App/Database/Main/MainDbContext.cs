@@ -27,7 +27,7 @@ namespace Am.Testing.App.Database.Main
                 _configuration.GetConnectionString("DefaultConnection")
                 , b => b.MigrationsAssembly("Am.Testing.Web")
                 );
-        
+
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
             if (Debugger.IsAttached)
@@ -37,5 +37,19 @@ namespace Am.Testing.App.Database.Main
             }
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            ApplySoftDelete(modelBuilder);
+        }
+
+        private static void ApplySoftDelete(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Author>().HasQueryFilter(x => x.DeletedBy == null);
+            modelBuilder.Entity<Book>().HasQueryFilter(x => x.DeletedBy == null);
+            modelBuilder.Entity<Genre>().HasQueryFilter(x => x.DeletedBy == null);
+            modelBuilder.Entity<CoverType>().HasQueryFilter(x => x.DeletedBy == null);
+            modelBuilder.Entity<Publisher>().HasQueryFilter(x => x.DeletedBy == null);
+
+        }
     }
 }

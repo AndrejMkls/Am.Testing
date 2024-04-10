@@ -120,6 +120,9 @@
   <data name="CoverTypes" xml:space="preserve">
     <value>Cover types</value>
   </data>
+  <data name="Enumerations" xml:space="preserve">
+    <value>Enumerations</value>
+  </data>
   <data name="Genres" xml:space="preserve">
     <value>Genres</value>
   </data>
