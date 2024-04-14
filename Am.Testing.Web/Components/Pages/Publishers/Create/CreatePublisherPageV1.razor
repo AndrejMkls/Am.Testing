@@ -1,0 +1,107 @@
+﻿@page "/publishers/create/v1"
+
+@using Am.Testing.Domain.Entities
+
+@inherits BasePage
+@inject IStringLocalizer<CreatePublisherPageV1> Localizer
+@inject MainDbContext DbContext
+
+<h3>@Localizer["CreateNewItem"] Vytvoriť novú položku</h3>
+
+<RadzenCard>
+
+    <RadzenTemplateForm Data="@item" Submit="@(async (Publisher args) => { await OnSubmit(args); })">
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Name"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox @bind-Value=@item.Name class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Email"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox Name="Email" @bind-Value=@item.Email class="w-100" />
+                <RadzenEmailValidator Component="Email" Text="Provide a valid email address" Popup=@popup Style="position: absolute" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["PhoneNumber"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox @bind-Value=@item.PhoneNumber class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Website"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextArea @bind-Value=@item.Website class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["PublisherType"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox @bind-Value=@item.PublisherType class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["YearFounded"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenNumeric @bind-Value=@item.YearFounded class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Notes"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextArea @bind-Value=@item.Notes class="w-100" />
+            </div>
+        </div>
+
+        <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+
+    </RadzenTemplateForm>
+
+</RadzenCard>
+
+@code {
+
+
+    private Publisher item = new();
+
+
+    private async Task OnSubmit(Publisher output)
+    {
+        await DbContext.Publishers.AddAsync(output);
+        await DbContext.SaveChangesAsync();
+
+        Navigations.NavigateTo("/authors/index/v1");
+    }
+
+    void Cancel()
+    {
+        //
+    }
+
+
+
+}

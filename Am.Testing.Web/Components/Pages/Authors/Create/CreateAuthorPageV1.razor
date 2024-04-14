@@ -17,7 +17,9 @@
                 <RadzenLabel Text="@Localizer["FirstName"]" />
             </div>
             <div class="col-xl-6 col-12">
-                <RadzenTextBox @bind-Value=@item.FirstName class="w-100" />
+                <RadzenTextBox Name="FirstName" @bind-Value=@item.FirstName class="w-100" />
+                <RadzenRequiredValidator Component="FirstName" Text="First name is required" Popup=@popup Style="position: absolute" />
+                <RadzenLengthValidator Component="FirstName" Max="50" Text="First name should be at most 10 characters" Popup=@popup Style="position: absolute" />
             </div>
         </div>
 
@@ -26,7 +28,9 @@
                 <RadzenLabel Text="@Localizer["LastName"]" />
             </div>
             <div class="col-xl-6 col-12">
-                <RadzenTextBox @bind-Value=@item.LastName class="w-100" />
+                <RadzenTextBox Name="LastName" @bind-Value=@item.LastName class="w-100" />
+                <RadzenRequiredValidator Component="LastName" Text="Last name is required" Popup=@popup Style="position: absolute" />
+                <RadzenLengthValidator Component="LastName" Max="50" Text="First name should be at most 10 characters" Popup=@popup Style="position: absolute" />
             </div>
         </div>
 
@@ -71,7 +75,8 @@
                 <RadzenLabel Text="@Localizer["BirthYear"]" />
             </div>
             <div class="col-xl-6 col-12">
-                <RadzenNumeric @bind-Value=@item.BirthYear class="w-100" />
+                <RadzenNumeric Name="BirthYear" @bind-Value=@item.BirthYear class="w-100" />
+                <RadzenNumericRangeValidator Component="BirthYear" Max="@DateTime.Now.Year" Text="Text" Popup=@popup Style="position: absolute" />
             </div>
         </div>
 

@@ -57,6 +57,9 @@ builder.Services.AddLocalization();
 
 builder.Services.AddMemoryCache();
 
+builder.Services.AddControllers();
+
+
 
 
 //Radzen services
@@ -85,6 +88,8 @@ else
     app.UseHsts();
 }
 
+app.MapControllers();
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -104,6 +109,8 @@ var localizationOptions = new RequestLocalizationOptions()
     .AddSupportedUICultures(supportedCultures);
 
 app.UseRequestLocalization(localizationOptions);
+
+
 
 //await app.SetDefaultLanguage();
 

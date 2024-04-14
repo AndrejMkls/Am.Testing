@@ -1,0 +1,130 @@
+﻿@page "/publishers/index/v1"
+@using Am.Testing.Domain.Entities
+
+@inherits BasePage
+@inject MainDbContext DbContext
+@inject IStringLocalizer<PublishersIndexV1> Localizer
+
+<h3>@Localizer["Title"]</h3>
+
+<div class="d-flex justify-content-end align-items-center">
+    <RadzenLink Path="/publishers/create/v1">
+        <RadzenButton Text=@Localizer["CreateNew"] />
+    </RadzenLink>
+</div>
+
+<RadzenTabs>
+    <Tabs>
+        <RadzenTabsItem Text=@Localizer["Cards"]>
+
+            <RadzenDataList TItem="Publisher" Data="items" WrapItems=true>
+                <Template>
+
+
+                    <RadzenCard Style="max-width: 200px;">
+                        <div class="d-flex justify-content-center">
+                            <RadzenBadge IsPill="@true" Text="@context.Name" class="rz-ml-2"
+                                         Style="background-color: hsl(5, 69%, 60%)" />
+                        </div>
+                        <div style="min-height:60px; margin-top: 1rem">
+                            <b>@context.Name</b>
+                        </div>
+                        <div>
+
+                            <RadzenLink Path="@($"publishers/{context.Id}/v1")">
+                                <RadzenButton Text="Otvoriť" class="w-100" Style="background-color: hsl(5, 69%, 60%)" />
+                            </RadzenLink>
+
+                        </div>
+                    </RadzenCard>
+
+
+
+                </Template>
+            </RadzenDataList>
+
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text=@Localizer["Table"]>
+
+            <RadzenDataGrid TItem="Publisher" Data="items"
+                            AllowFiltering=true FilterMode="FilterMode.Simple"
+                            AllowAlternatingRows=true>
+                <Columns>
+
+                    <RadzenDataGridColumn TItem="Publisher" Property="Name" Title="Názov" />
+
+                    <RadzenDataGridColumn TItem="Publisher" Property="Email" Title="Email" />
+
+                    <RadzenDataGridColumn TItem="Publisher" Property="PhoneNumber" Title="PhoneNumber" />
+
+                    <RadzenDataGridColumn TItem="Publisher" Property="Website" Title="Website">
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="Publisher" Property="Id" Title="Id" Filterable=false Sortable=false>
+                        <Template>
+                            <RadzenLink Path="@($"publishers/{context.Id}/v1")">
+                                <RadzenButton Text="Otvoriť" class="w-100" Style="background-color: hsl(5, 69%, 60%)" />
+                            </RadzenLink>
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                </Columns>
+            </RadzenDataGrid>
+
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text=@Localizer["Tree"]>
+
+            <RadzenTree>
+                @foreach (var item in items.Select(x => x.Name[..1]).Distinct())
+                {
+                    <RadzenTreeItem Text="@item">
+
+                        <ChildContent>
+
+                            @{
+                                var children = items.Where(x => x.Name[..1] == item);
+                                foreach (var publisher in children)
+                                {
+                                     <RadzenTreeItem Text="@publisher.Name">
+                                        <Template>
+                                            <div class="d-flex justify-content-start align-items-center">
+                                                <span> @publisher.Name </span>
+                                                <div style="width: 50px;"> </div>
+                                                <a href="@($"/publishers/{publisher.Id}/v1")" style="color: black">
+                                                    <span class="material-icons me-2">settings</span>
+                                                </a>
+                                            </div>
+                                        </Template>
+                                    </RadzenTreeItem>
+                                }
+                            }
+
+                        </ChildContent>
+
+
+                    </RadzenTreeItem>
+                }
+            </RadzenTree>
+
+        </RadzenTabsItem>
+    </Tabs>
+</RadzenTabs>
+
+@code {
+
+    private IEnumerable<Publisher> items = Enumerable.Empty<Publisher>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var list = await DbContext.Publishers.ToListAsync();
+
+        if (list is not null)
+        {
+            items = list;
+        }
+
+    }
+
+}

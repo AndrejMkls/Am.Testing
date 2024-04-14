@@ -9,72 +9,76 @@
 
 <RadzenCard>
 
-    <RadzenTemplateForm Data="@item" Submit="@(async (Author args) => { await OnSubmit(args); })">
+    @if (item is not null)
+    {
+        <RadzenTemplateForm Data="@item" Submit="@(async (Author args) => { await OnSubmit(args); })">
 
-        <div class="row mb-1">
-            <div class="col-xl-3 col-12">
-                <RadzenLabel Text="@Localizer["FirstName"]" />
+            <div class="row mb-1">
+                <div class="col-xl-3 col-12">
+                    <RadzenLabel Text="@Localizer["FirstName"]" />
+                </div>
+                <div class="col-xl-6 col-12">
+                    <RadzenTextBox @bind-Value=@item.FirstName class="w-100" />
+                </div>
             </div>
-            <div class="col-xl-6 col-12">
-                <RadzenTextBox @bind-Value=@item.FirstName class="w-100" />
-            </div>
-        </div>
 
-        <div class="row mb-1">
-            <div class="col-xl-3 col-12">
-                <RadzenLabel Text="@Localizer["LastName"]" />
+            <div class="row mb-1">
+                <div class="col-xl-3 col-12">
+                    <RadzenLabel Text="@Localizer["LastName"]" />
+                </div>
+                <div class="col-xl-6 col-12">
+                    <RadzenTextBox @bind-Value=@item.LastName class="w-100" />
+                </div>
             </div>
-            <div class="col-xl-6 col-12">
-                <RadzenTextBox @bind-Value=@item.LastName class="w-100" />
-            </div>
-        </div>
 
-        <div class="row mb-1">
-            <div class="col-xl-3 col-12">
-                <RadzenLabel Text="@Localizer["FullName"]" />
+            <div class="row mb-1">
+                <div class="col-xl-3 col-12">
+                    <RadzenLabel Text="@Localizer["FullName"]" />
+                </div>
+                <div class="col-xl-6 col-12">
+                    <RadzenTextBox @bind-Value=@item.FullName class="w-100" />
+                </div>
             </div>
-            <div class="col-xl-6 col-12">
-                <RadzenTextBox @bind-Value=@item.FullName class="w-100" />
-            </div>
-        </div>
 
-        <div class="row mb-1">
-            <div class="col-xl-3 col-12">
-                <RadzenLabel Text="@Localizer["Biography"]" />
+            <div class="row mb-1">
+                <div class="col-xl-3 col-12">
+                    <RadzenLabel Text="@Localizer["Biography"]" />
+                </div>
+                <div class="col-xl-6 col-12">
+                    <RadzenTextArea @bind-Value=@item.Biography class="w-100" />
+                </div>
             </div>
-            <div class="col-xl-6 col-12">
-                <RadzenTextArea @bind-Value=@item.Biography class="w-100" />
-            </div>
-        </div>
 
-        <div class="row mb-1">
-            <div class="col-xl-3 col-12">
-                <RadzenLabel Text="@Localizer["Nationality"]" />
+            <div class="row mb-1">
+                <div class="col-xl-3 col-12">
+                    <RadzenLabel Text="@Localizer["Nationality"]" />
+                </div>
+                <div class="col-xl-6 col-12">
+                    <RadzenTextBox @bind-Value=@item.Nationality class="w-100" />
+                </div>
             </div>
-            <div class="col-xl-6 col-12">
-                <RadzenTextBox @bind-Value=@item.Nationality class="w-100" />
-            </div>
-        </div>
 
-        <div class="row mb-1">
-            <div class="col-xl-3 col-12">
-                <RadzenLabel Text="@Localizer["Photo"]" />
+            <div class="row mb-1">
+                <div class="col-xl-3 col-12">
+                    <RadzenLabel Text="@Localizer["Photo"]" />
+                </div>
+                <div class="col-xl-6 col-12">
+                    <InputFile />
+                </div>
             </div>
-            <div class="col-xl-6 col-12">
-                <InputFile />
-            </div>
-        </div>
 
-        <div class="row mb-1">
-            <div class="col-xl-3 col-12">
-                <RadzenLabel Text="@Localizer["BirthYear"]" />
+            <div class="row mb-1">
+                <div class="col-xl-3 col-12">
+                    <RadzenLabel Text="@Localizer["BirthYear"]" />
+                </div>
+                <div class="col-xl-6 col-12">
+                    <RadzenNumeric @bind-Value=@item.BirthYear class="w-100" />
+                </div>
             </div>
-            <div class="col-xl-6 col-12">
-                <RadzenNumeric @bind-Value=@item.BirthYear class="w-100" />
-            </div>
-        </div>
 
-    </RadzenTemplateForm>
+        </RadzenTemplateForm>
+    }
+    
 
 </RadzenCard>
 

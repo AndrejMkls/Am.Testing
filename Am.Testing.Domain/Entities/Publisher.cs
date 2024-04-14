@@ -14,7 +14,7 @@ namespace Am.Testing.Domain.Entities
         [Key]
         public long Id { get; set; }
 
-        public required string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public string? Email { get; set; }
 

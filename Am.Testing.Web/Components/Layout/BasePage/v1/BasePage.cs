@@ -24,5 +24,7 @@ namespace Am.Testing.Web.Components.Layout.BasePage.v1
 
         protected string? errorMessage;
 
+        protected bool popup;
+
     }
 }

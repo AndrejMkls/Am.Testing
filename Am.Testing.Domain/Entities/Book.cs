@@ -41,7 +41,7 @@ namespace Am.Testing.Domain.Entities
         [Key]
         public long Id { get; set; }    
 
-        public required string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         public string? ISBN { get; set; }
 
@@ -59,7 +59,7 @@ namespace Am.Testing.Domain.Entities
 
         public string? Summary { get; set; }
 
-        public required string Language { get; set; }
+        public string Language { get; set; } = string.Empty;
 
         public int PageCount { get; set; }
 

@@ -1,0 +1,132 @@
+﻿@page "/books/index/v1"
+
+@using Am.Testing.Domain.Entities
+
+@inherits BasePage
+@inject MainDbContext DbContext
+@inject IStringLocalizer<BooksIndexV1> Localizer
+
+<h3>@Localizer["Title"]</h3>
+
+<div class="d-flex justify-content-end align-items-center">
+    <RadzenLink Path="/books/create/v1">
+        <RadzenButton Text=@Localizer["CreateNew"] />
+    </RadzenLink>
+
+</div>
+
+<RadzenTabs>
+    <Tabs>
+        <RadzenTabsItem Text=@Localizer["Cards"]>
+
+            <RadzenDataList TItem="Book" Data="items" WrapItems=true>
+                <Template>
+
+
+                    <RadzenCard Style="max-width: 200px;">
+                        <div class="d-flex justify-content-center">
+                            <RadzenBadge IsPill="@true" Text="@context.Title" class="rz-ml-2"
+                                         Style="background-color: hsl(5, 69%, 60%)" />
+                        </div>
+                        <div style="min-height:60px; margin-top: 1rem">
+                            <b>@context.Title</b>
+                        </div>
+                        <div>
+
+                            <RadzenLink Path="@($"books/{context.Id}/v1")">
+                                <RadzenButton Text="Otvoriť" class="w-100" Style="background-color: hsl(5, 69%, 60%)" />
+                            </RadzenLink>
+
+                        </div>
+                    </RadzenCard>
+
+
+
+                </Template>
+            </RadzenDataList>
+
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text=@Localizer["Table"]>
+
+            <RadzenDataGrid TItem="Book" Data="items"
+                            AllowFiltering=true FilterMode="FilterMode.Simple"
+                            AllowAlternatingRows=true>
+                <Columns>
+
+                    <RadzenDataGridColumn TItem="Book" Property="FirstName" Title="Meno" />
+
+                    <RadzenDataGridColumn TItem="Book" Property="LastName" Title="Priezvisko" />
+
+                    <RadzenDataGridColumn TItem="Book" Property="Nationality" Title="Nationality" />
+
+                    <RadzenDataGridColumn TItem="Book" Property="BirthYear" Title="BirthYear">
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="Book" Property="Id" Title="Id" Filterable=false Sortable=false>
+                        <Template>
+                            <RadzenLink Path="@($"books/{context.Id}/v1")">
+                                <RadzenButton Text="Otvoriť" class="w-100" Style="background-color: hsl(5, 69%, 60%)" />
+                            </RadzenLink>
+                        </Template>
+                    </RadzenDataGridColumn>
+
+                </Columns>
+            </RadzenDataGrid>
+
+        </RadzenTabsItem>
+
+        <RadzenTabsItem Text=@Localizer["Tree"]>
+
+            <RadzenTree>
+                @foreach (var item in items.Select(x => x.Title[..1]).Distinct())
+                {
+                    <RadzenTreeItem Text="@item">
+
+                        <ChildContent>
+
+                            @{
+                                var children = items.Where(x => x.Title[..1] == item);
+                                foreach (var book in children)
+                                {
+                                    <RadzenTreeItem Text="@book.Title">
+                                        <Template>
+                                            <div class="d-flex justify-content-start align-items-center">
+                                                <span> @book.Title </span>
+                                                <div style="width: 50px;"> </div>
+                                                <a href="@($"/books/{book.Id}/v1")" style="color: black">
+                                                    <span class="material-icons me-2">settings</span>
+                                                </a>
+                                            </div>
+                                        </Template>
+                                    </RadzenTreeItem>
+                                }
+                            }
+
+                        </ChildContent>
+
+
+                    </RadzenTreeItem>
+                }
+            </RadzenTree>
+
+        </RadzenTabsItem>
+    </Tabs>
+</RadzenTabs>
+
+@code {
+
+    private IEnumerable<Book> items = Enumerable.Empty<Book>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var list = await DbContext.Books.ToListAsync();
+
+        if (list is not null)
+        {
+            items = list;
+        }
+
+    }
+
+}
