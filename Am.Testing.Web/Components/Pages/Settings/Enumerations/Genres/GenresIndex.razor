@@ -4,8 +4,9 @@
 
 @inherits BasePage
 @inject MainDbContext DbContext
+@inject IStringLocalizer<GenresIndex> Localizer
 
-<h3>Genres</h3>
+<h3>@Localizer["Title"]</h3>
 
 <RadzenDataGrid @ref=grid TItem="Genre" Data="@items"
                 AllowSorting=true AllowFiltering=true FilterMode="FilterMode.Simple" AllowPaging=true PageSize="10"

@@ -4,8 +4,9 @@
 
 @inherits BasePage
 @inject MainDbContext DbContext 
+@inject IStringLocalizer<CoverTypesIndex> Localizer
 
-<h3>CoverTypesIndex</h3>
+<h3>@Localizer["Title"]</h3>
 
 <RadzenDataGrid @ref=grid TItem="CoverType" Data="@items" 
                 AllowSorting=true AllowFiltering=true FilterMode="FilterMode.Simple" AllowPaging=true PageSize="10" 

@@ -1,5 +1,11 @@
 ﻿@page "/publishers/{PublisherId:long}/v1"
 
+@using Am.Testing.Domain.Entities
+
+@inherits BasePage
+@inject IStringLocalizer<EditPublisherPageV1> Localizer
+@inject MainDbContext DbContext
+
 <h3>EditPublisherPageV1</h3>
 
 @code {
