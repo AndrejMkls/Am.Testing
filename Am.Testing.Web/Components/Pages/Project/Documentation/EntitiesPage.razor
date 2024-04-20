@@ -1,8 +1,25 @@
 ﻿@page "/project/documentation/entities"
 
+@using Am.Testing.Web.Components.Ui.Project;
+
 <DocumentationNavigation />
 
-<h3>EntitiesPage</h3>
+<h3>Návrh entít</h3>
+
+<EntityCard Name="Autor" Desc="Základné údaje o autorovi">
+    <Table>
+        <EntityRow Name="id" DataType="long" Required="true" />
+        <EntityRow Name="full_name" DataType="string" Length=100 Required="true" />
+        <EntityRow Name="first_name" DataType="string" Length=50 Required="true" />
+        <EntityRow Name="last_name" DataType="string" Length=50  Required="true" />
+        <EntityRow Name="Biography" DataType="string" Required="false" />
+        <EntityRow Name="Nationality" DataType="string" Required="false" />
+        <EntityRow Name="Photo" DataType="string" Required="false"  />
+        <EntityRow Name="BirthYear" DataType="int" Required="false"  />
+    </Table>
+</EntityCard>
+
+
 
 @code {
 

@@ -13,13 +13,24 @@ namespace Am.Testing.Domain.Entities
     public class Author : BaseTimingEntity
     {
         [Key]
+        [Column("id")]
         public long Id { get; set; }
 
+        [Column("full_name")]
+        [Required]
+        [StringLength(100)]
         public string FullName { get; set; } = "";
-        
+
+        [Column("first_name")]
+        [Required]
+        [StringLength(50)]
         public string FirstName { get; set; } = "";
 
+        [Column("last_name")]
+        [Required]
+        [StringLength(50)]
         public string LastName { get; set; } = "";
+
 
         public string? Biography { get; set; }
 

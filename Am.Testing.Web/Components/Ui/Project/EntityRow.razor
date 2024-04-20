@@ -1,0 +1,27 @@
+﻿<tr>
+    <td>@Name</td>
+    <td>@DataType</td>
+    <td>@Length</td>
+    <td><RadzenSwitch Value=@Required ></RadzenSwitch></td>
+    <td>@Notes</td>
+</tr>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public required string Name { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string DataType { get; set; }
+
+    [Parameter]
+    public int? Length { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    [Parameter]
+    public string? Notes { get; set; }
+
+
+}
