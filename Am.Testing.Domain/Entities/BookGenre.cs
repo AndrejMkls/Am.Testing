@@ -9,16 +9,23 @@ using System.Threading.Tasks;
 
 namespace Am.Testing.Domain.Entities
 {
-    [Table("genre", Schema = "public")]
-    public class Genre : BaseTimingEntity, ICloneable
+    [Table("book_genre", Schema = "public")]
+    public class BookGenre : BaseTimingEntity, ICloneable
     {
         [Key]
         public long Id { get; set; }
 
-        [Column("name")]
-        [Required]
-        [StringLength(100)]
-        public required string Name { get; set; }
+        [Column("genre_id")]
+        public long GenreId { get; set; }
+
+        [ForeignKey(nameof(GenreId))]
+        public Genre? Genre { get; set; }
+
+        [Column("book_id")]
+        public long BookId { get; set; }
+
+        [ForeignKey(nameof(BookId))]
+        public Book? Book { get; set; } 
 
         public object Clone()
         {

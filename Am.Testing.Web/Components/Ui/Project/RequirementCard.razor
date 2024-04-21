@@ -1,0 +1,67 @@
+﻿@inherits ComponentBase
+@implements IDisposable
+
+<RadzenCard class="mb-2">
+
+    <h4>@Name</h4>
+    <hr />
+
+    <div class="d-flex justify-content-start gap-4">
+        <div><b>Oblasť požiadaviek</b></div>
+        <div>
+            <span> @Desc </span>
+        </div>
+    </div>
+    <hr />
+
+    <table class="w-100">
+        <thead>
+            <tr>
+                <td>ID požiadavky</td>
+                <td>Typ požiadavky</td>
+                <td>Oblasť</td>
+                <td>Názov</td>
+                <td>Detailný popis</td>
+                <td>Poznámka</td>
+                <td>Use case</td>
+                <td>Test case</td>
+            </tr>
+        </thead>
+        <tbody>
+            @Table
+        </tbody>
+    </table>
+
+</RadzenCard>
+
+@code {
+
+    public ElementReference Element { get; internal set; }
+
+    [Parameter]
+    public string? Name { get; set; }
+
+    [Parameter]
+    public string? Desc { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? Table { get; set; }
+
+
+
+    private DotNetObjectReference<ComponentBase>? reference;
+
+    internal bool disposed = false;
+
+    public void Dispose()
+    {
+        disposed = true;
+
+        reference?.Dispose();
+        reference = null;
+    }
+
+}

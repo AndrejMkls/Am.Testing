@@ -39,38 +39,59 @@ namespace Am.Testing.Domain.Entities
     public class Book : BaseTimingEntity
     {
         [Key]
-        public long Id { get; set; }    
+        [Column("id")]
+        public long Id { get; set; }
 
+        [Column("title")]
+        [Required]
+        [StringLength(100)]
         public string Title { get; set; } = string.Empty;
 
+        [Column("isbn")]
+        [StringLength(15)]
         public string? ISBN { get; set; }
 
         public ICollection<Author> Authors {  get; set; } = new List<Author>();
 
         public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
+        [Column("publisher_id")]
         public long PublisherId { get; set; }
 
+        [ForeignKey(nameof(PublisherId))]
         public Publisher? Publisher { get; set; }
 
+        [Column("publication_date")]
         public DateTime PublicationDate { get; set; }
 
+        [Column("edition")]
+        [StringLength(15)]
         public string? Edition { get; set; }
 
+        [Column("summary")]
+        [StringLength(500)]
         public string? Summary { get; set; }
 
+        [Column("language")]
+        [StringLength(20)]
         public string Language { get; set; } = string.Empty;
 
+        [Column("page_count")]
         public int PageCount { get; set; }
 
+        [Column("height")]
         public double Height { get; set; }
 
-        public double Width { get; set; }   
+        [Column("width")]
+        public double Width { get; set; }
 
+        [Column("thickness")]
         public double Thickness { get; set; }
 
+        [Column("cover_type_id")]
         public long CoverTypeId { get; set; }
 
+        [ForeignKey(nameof(CoverTypeId))]
         public CoverType? CoverType { get; set; }
 
 

@@ -12,10 +12,136 @@
         <EntityRow Name="full_name" DataType="string" Length=100 Required="true" />
         <EntityRow Name="first_name" DataType="string" Length=50 Required="true" />
         <EntityRow Name="last_name" DataType="string" Length=50  Required="true" />
-        <EntityRow Name="Biography" DataType="string" Required="false" />
-        <EntityRow Name="Nationality" DataType="string" Required="false" />
-        <EntityRow Name="Photo" DataType="string" Required="false"  />
-        <EntityRow Name="BirthYear" DataType="int" Required="false"  />
+        <EntityRow Name="biography" DataType="string" Required="false" />
+        <EntityRow Name="nationality" DataType="string" Length=50 Required="false" />
+        <EntityRow Name="photo" DataType="string" Required="false"  />
+        <EntityRow Name="birth_year" DataType="int" Required="false" />
+
+        <EntityRow Name="created_by" DataType="string" Required="false" />
+        <EntityRow Name="updated_by" DataType="string" Required="false" />
+        <EntityRow Name="deleted_by" DataType="string" Required="false" />
+
+        <EntityRow Name="created_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="updated_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="deleted_at" DataType="DateTime" Required="false" />
+
+    </Table>
+</EntityCard>
+
+<EntityCard Name="Vydavateľstvo" Desc="Základné údaje o vydavateľstve">
+    <Table>
+        <EntityRow Name="id" DataType="long" Required="true" />
+        <EntityRow Name="name" DataType="string" Length=100 Required="true" />
+        <EntityRow Name="email" DataType="string" Length=100 Required="false" />
+        <EntityRow Name="phone_number" DataType="string" Length=30 Required="false" />
+        <EntityRow Name="website" DataType="string" Length=50 Required="false" />
+        <EntityRow Name="publisher_type" Notes="Typ vydavateľstva" DataType="string" Length=50 Required="false" />
+        <EntityRow Name="year_founded" DataType="int" Required="false" />
+        <EntityRow Name="notes" DataType="string" Required="false" />
+
+        <EntityRow Name="created_by" DataType="string" Required="false" />
+        <EntityRow Name="updated_by" DataType="string" Required="false" />
+        <EntityRow Name="deleted_by" DataType="string" Required="false" />
+
+        <EntityRow Name="created_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="updated_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="deleted_at" DataType="DateTime" Required="false" />
+
+    </Table>
+</EntityCard>
+
+<EntityCard Name="Typ obalu" Desc="Typy knižných obalov">
+    <Table>
+        <EntityRow Name="id" DataType="long" Required="true" />
+        <EntityRow Name="name" DataType="string" Length=100 Required="true" />
+
+        <EntityRow Name="created_by" DataType="string" Required="false" />
+        <EntityRow Name="updated_by" DataType="string" Required="false" />
+        <EntityRow Name="deleted_by" DataType="string" Required="false" />
+
+        <EntityRow Name="created_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="updated_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="deleted_at" DataType="DateTime" Required="false" />
+    </Table>
+</EntityCard>
+
+<EntityCard Name="Žáner" Desc="Knižný žáner">
+    <Table>
+        <EntityRow Name="id" DataType="long" Required="true" />
+        <EntityRow Name="name" DataType="string" Length=100 Required="true" />
+
+        <EntityRow Name="created_by" DataType="string" Required="false" />
+        <EntityRow Name="updated_by" DataType="string" Required="false" />
+        <EntityRow Name="deleted_by" DataType="string" Required="false" />
+
+        <EntityRow Name="created_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="updated_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="deleted_at" DataType="DateTime" Required="false" />
+    </Table>
+</EntityCard>
+
+<EntityCard Name="Kniha" Desc="Základné údaje o knihe">
+    <Table>
+        <EntityRow Name="id" DataType="long" Required="true" />
+        <EntityRow Name="title" DataType="string" Length=100 Required="true" />
+        <EntityRow Name="isbn" DataType="string" Length="15" Required="false" />
+        <EntityRow Name="publisher_id" DataType="long" Required="false" />
+
+        <EntityRow Name="publication_date" DataType="long" Required="false" />
+        <EntityRow Name="edition" DataType="string" Length="15" Required="false" />
+        <EntityRow Name="summary" DataType="string" Length="500" Required="false" />
+        <EntityRow Name="language" DataType="string" Length="20" Required="false" />
+        <EntityRow Name="page_count" DataType="int" Required="false" />
+        <EntityRow Name="height" DataType="double" Required="false" />
+        <EntityRow Name="width" DataType="double" Required="false" />
+        <EntityRow Name="thickness" DataType="double" Required="false" />
+        <EntityRow Name="cover_type_id" DataType="long" Required="false" />
+
+        <EntityRow Name="created_by" DataType="string" Required="false" />
+        <EntityRow Name="updated_by" DataType="string" Required="false" />
+        <EntityRow Name="deleted_by" DataType="string" Required="false" />
+
+        <EntityRow Name="created_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="updated_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="deleted_at" DataType="DateTime" Required="false" />
+
+    </Table>
+</EntityCard>
+
+
+<EntityCard Name="Autor knihy" Desc="Autor knihy">
+    <Table>
+        <EntityRow Name="id" DataType="long" Required="true" />
+
+        <EntityRow Name="author_id" DataType="long" Required="true" />
+        <EntityRow Name="book_id" DataType="long" Required="true" />
+
+        <EntityRow Name="created_by" DataType="string" Required="false" />
+        <EntityRow Name="updated_by" DataType="string" Required="false" />
+        <EntityRow Name="deleted_by" DataType="string" Required="false" />
+
+        <EntityRow Name="created_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="updated_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="deleted_at" DataType="DateTime" Required="false" />
+
+    </Table>
+</EntityCard>
+
+<EntityCard Name="Žáner knihy" Desc="Žáner knihy">
+    <Table>
+        <EntityRow Name="id" DataType="long" Required="true" />
+
+        <EntityRow Name="genre_id" DataType="long" Required="true" />
+        <EntityRow Name="book_id" DataType="long" Required="true" />
+
+        <EntityRow Name="created_by" DataType="string" Required="false" />
+        <EntityRow Name="updated_by" DataType="string" Required="false" />
+        <EntityRow Name="deleted_by" DataType="string" Required="false" />
+
+        <EntityRow Name="created_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="updated_at" DataType="DateTime" Required="false" />
+        <EntityRow Name="deleted_at" DataType="DateTime" Required="false" />
+
     </Table>
 </EntityCard>
 

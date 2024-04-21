@@ -13,9 +13,14 @@ namespace Am.Testing.Domain.Entities
     public class CoverType : BaseTimingEntity, ICloneable
     {
         [Key]
+        [Column("id")]
         public long Id { get; set; }
 
+        [Column("name")]
+        [Required]
+        [StringLength(100)]
         public required string Name { get; set; }
+
 
         public object Clone()
         {

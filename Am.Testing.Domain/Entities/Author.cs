@@ -31,15 +31,23 @@ namespace Am.Testing.Domain.Entities
         [StringLength(50)]
         public string LastName { get; set; } = "";
 
-
+        [Column("biography")]
         public string? Biography { get; set; }
 
+        [Column("nationality")]
+        [StringLength(50)]
         public string? Nationality { get; set; }
 
+        [Column("photo")]
         public string? Photo { get; set; }
 
+        [Column("birth_year")]
         public int? BirthYear { get; set; }
 
+        [NotMapped]
         public string Initials { get => $"{FirstName[..1]}{LastName[..1]}"; }
+
+        public ICollection<Book> Books { get; set; } = new List<Book>();
+
     }
 }

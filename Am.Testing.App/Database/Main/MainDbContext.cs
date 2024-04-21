@@ -21,6 +21,9 @@ namespace Am.Testing.App.Database.Main
         public DbSet<CoverType> CoverTypes { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
 
+        public DbSet<BookGenre> BookGenres { get; set; }
+        public DbSet<BookAuthor> BookAuthors { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(
@@ -39,6 +42,34 @@ namespace Am.Testing.App.Database.Main
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Book>()
+                .HasOne(e => e.Publisher)
+                .WithMany()
+                .HasForeignKey(e => e.PublisherId);
+
+            modelBuilder.Entity<Book>()
+                .HasOne(e => e.CoverType)
+                .WithMany()
+                .HasForeignKey(e => e.CoverTypeId);
+
+            modelBuilder.Entity<Book>()
+                .HasMany(e => e.Authors)
+                .WithMany(e => e.Books)
+                .UsingEntity<BookAuthor>(
+                    left => left.HasOne(e => e.Author).WithMany().HasForeignKey(e => e.AuthorId),
+                    right => right.HasOne(e => e.Book).WithMany().HasForeignKey(e =>e.BookId)
+                );
+
+            modelBuilder.Entity<Book>()
+               .HasMany(e => e.Genres)
+               .WithMany()
+               .UsingEntity<BookGenre>(
+                   left => left.HasOne(e => e.Genre).WithMany().HasForeignKey(e => e.GenreId),
+                   right => right.HasOne(e => e.Book).WithMany().HasForeignKey(e => e.BookId)
+               );
+
+
+
             ApplySoftDelete(modelBuilder);
         }
 
@@ -50,6 +81,8 @@ namespace Am.Testing.App.Database.Main
             modelBuilder.Entity<CoverType>().HasQueryFilter(x => x.DeletedBy == null);
             modelBuilder.Entity<Publisher>().HasQueryFilter(x => x.DeletedBy == null);
 
+            modelBuilder.Entity<BookGenre>().HasQueryFilter(x => x.DeletedBy == null);
+            modelBuilder.Entity<BookAuthor>().HasQueryFilter(x => x.DeletedBy == null);
         }
     }
 }

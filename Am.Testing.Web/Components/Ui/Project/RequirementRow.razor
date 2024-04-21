@@ -1,0 +1,35 @@
+﻿<tr>
+    <td>@Id</td>
+    <td>@RequirementType</td>
+    <td>@Category</td>
+    <td>@Name</td>
+    <td>@Requirement</td>
+    <td>@UseCase</td>
+    <td>@TestCase</td>
+</tr>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public required string Id { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string RequirementType { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Category { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Name { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Requirement { get; set; }
+
+    [Parameter]
+    public string? UseCase { get; set; }
+
+    [Parameter]
+    public string? TestCase { get; set; }
+
+
+}

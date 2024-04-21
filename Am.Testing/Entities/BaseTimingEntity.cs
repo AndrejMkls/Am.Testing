@@ -17,24 +17,30 @@ namespace Am.Testing.Entities
          * WHO WHEN WHAT
          */
 
+        [Column("created_by")]
         public string? CreatedBy { get; set; }
 
+        [Column("updated_by")]
         public string? UpdatedBy { get; set; }
 
+        [Column("deleted_by")]
         public string? DeletedBy { get; set; }
 
+        [Column("created_at")]
         public DateTime CreatedAt
         {
             get => _createdAt;
             set => _createdAt = DateTime.SpecifyKind(value, DateTimeKind.Utc);
         }
 
+        [Column("updated_at")]
         public DateTime? UpdatedAt
         {
             get => _updatedAt;
             set => _updatedAt = value.HasValue ? DateTime.SpecifyKind(value.Value, DateTimeKind.Utc) : null;
         }
 
+        [Column("deleted_at")]
         public DateTime? DeletedAt
         {
             get => _deletedAt;

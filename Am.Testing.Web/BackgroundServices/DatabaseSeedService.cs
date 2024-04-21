@@ -3,6 +3,7 @@ using Am.Testing.App.Seeding;
 using Am.Testing.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Radzen;
 
 namespace Am.Testing.Web.BackgroundServices
@@ -63,8 +64,8 @@ namespace Am.Testing.Web.BackgroundServices
 
                 await CreateCoverTypes(dbContext, superUser, stoppingToken);
                 await CreateGenres(dbContext, superUser, stoppingToken);
-
-
+                await CreateAuthors(dbContext, superUser, stoppingToken);
+                await CreatePublishers(dbContext, superUser, stoppingToken);
             }
             catch (Exception ex)
             {
@@ -127,6 +128,46 @@ namespace Am.Testing.Web.BackgroundServices
                 }
 
                 await context.Genres.AddRangeAsync(items, cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        private async Task CreateAuthors(MainDbContext context, ApplicationUser superUser, CancellationToken cancellationToken)
+        {
+            var hasItems = await context.Authors.AnyAsync(cancellationToken);
+
+            if (!hasItems)
+            {
+                var seeding = new AuthorSeeding();
+                var items = seeding.Items;
+
+                foreach (var item in items)
+                {
+                    item.CreatedBy = superUser.Id;
+                    item.CreatedAt = DateTime.UtcNow;
+                }
+
+                await context.Authors.AddRangeAsync(items, cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        private async Task CreatePublishers(MainDbContext context, ApplicationUser superUser, CancellationToken cancellationToken)
+        {
+            var hasItems = await context.Publishers.AnyAsync(cancellationToken);
+
+            if (!hasItems)
+            {
+                var seeding = new PublisherSeeding();
+                var items = seeding.Items;
+
+                foreach (var item in items)
+                {
+                    item.CreatedBy = superUser.Id;
+                    item.CreatedAt = DateTime.UtcNow;
+                }
+
+                await context.Publishers.AddRangeAsync(items, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
             }
         }

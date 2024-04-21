@@ -1,7 +1,63 @@
 ﻿@page "/project/documentation/requirements"
+@using Am.Testing.Web.Components.Ui.Project;
 
 <DocumentationNavigation />
-<h3>RequirementsPage</h3>
+
+<h3>Katalóg požiadaviek</h3>
+
+<RequirementCard Name="Autori" Desc="Manažment autorov">
+    <Table>
+
+        <RequirementRow Id="001"
+                        RequirementType="Funkčná požiadavka"
+                        Category="Manažment"
+                        Name="Pridanie autora"
+                        Requirement="Systém umožní pridávať autorov pomocou formuláru." 
+                        UseCase="" 
+                        TestCase="" />
+
+        <RequirementRow Id="002"
+                        RequirementType="Funkčná požiadavka"
+                        Category="Manažment"
+                        Name="Upravenie autora"
+                        Requirement="Systém umožní upraviť údaje o autorovi pomocou formuláru."
+                        UseCase=""
+                        TestCase="" />
+
+        <RequirementRow Id="003"
+                        RequirementType="Funkčná požiadavka"
+                        Category="Manažment"
+                        Name="Odstránenie autora"
+                        Requirement="Systém umožní vymazať autora zo zoznamu autorov."
+                        UseCase=""
+                        TestCase="" />
+
+        <RequirementRow Id="004"
+                        RequirementType="Funkčná požiadavka"
+                        Category="Manažment"
+                        Name="Zobrazenie listu autorov"
+                        Requirement="Systém umožní zobraziť zoznam autorov pomocou dátového listu."
+                        UseCase=""
+                        TestCase="" />
+
+        <RequirementRow Id="005"
+                        RequirementType="Funkčná požiadavka"
+                        Category="Manažment"
+                        Name="Zobrazenie tabuľky autorov"
+                        Requirement="Systém umožní zobraziť zoznam autorov pomocou tabuľky."
+                        UseCase=""
+                        TestCase="" />
+
+        <RequirementRow Id="006"
+                        RequirementType="Funkčná požiadavka"
+                        Category="Manažment"
+                        Name="Zobrazenie stromu autorov"
+                        Requirement="Systém umožní zobraziť zoznam autorov pomocou stromu, kategorizovaných podľa priezviska."
+                        UseCase=""
+                        TestCase="" />
+
+    </Table>
+</RequirementCard>
 
 @code {
 
