@@ -12,16 +12,28 @@ namespace Am.Testing.Domain.Validations
     {
         public AuthorValidator() 
         {
-            
+            RuleFor(author => author.FullName)
+                .NotEmpty()
+                .MaximumLength(100)
+                .WithMessage("Celé meno je povinné.");
+
             RuleFor(author => author.FirstName)
                 .NotEmpty()
+                .MaximumLength(50)
                 .WithMessage("Krstné meno je povinné.");
 
             RuleFor(author => author.LastName)
                 .NotEmpty()
+                .MaximumLength(50)
                 .WithMessage("Priezvisko je povinné.");
 
-            
+            RuleFor(author => author.Nationality)
+                .MaximumLength(50);
+
+            RuleFor(author => author.BirthYear)
+                .LessThanOrEqualTo(DateTime.Now.Year);
+
+
 
         }
     }

@@ -1,10 +1,13 @@
 using Am.Testing.App.Database.Main;
+using Am.Testing.Domain.Entities;
+using Am.Testing.Domain.Validations;
 using Am.Testing.Web.BackgroundServices;
 using Am.Testing.Web.Components;
 using Am.Testing.Web.Components.Account;
 using Am.Testing.Web.Components.Extensions;
 using Am.Testing.Web.Data;
 using Blazored.LocalStorage;
+using FluentValidation;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -61,7 +64,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+//Validators 
+builder.Services.AddScoped<IValidator<Author>, AuthorValidator>();
 
 
 //Radzen services
@@ -82,6 +86,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -90,8 +96,7 @@ else
     app.UseHsts();
 }
 
-//app.UseSwagger();
-//app.UseSwaggerUI();
+
 
 app.MapControllers();
 
@@ -102,6 +107,8 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapSwagger();
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();

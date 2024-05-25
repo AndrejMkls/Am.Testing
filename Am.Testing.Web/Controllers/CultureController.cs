@@ -6,6 +6,7 @@ namespace Am.Testing.Web.Controllers
     [Route("[controller]/[action]")]
     public class CultureController : Controller
     {
+        [NonAction]
         public IActionResult Set(string culture, string redirectUri)
         {
             if (culture != null)
