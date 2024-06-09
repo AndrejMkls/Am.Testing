@@ -1,6 +1,7 @@
 ﻿using Am.Testing.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Am.Testing.Domain.Entities
         [Column("full_name")]
         [Required]
         [StringLength(100)]
+        [DisplayName("celé meno")]
         public string FullName { get; set; } = "";
 
         [Column("first_name")]

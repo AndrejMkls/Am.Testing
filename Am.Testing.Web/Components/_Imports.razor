@@ -1,21 +1,29 @@
 ﻿@using System.Net.Http
 @using System.Net.Http.Json
 
+@using Microsoft.AspNetCore.Authorization
+
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
-@using static Microsoft.AspNetCore.Components.Web.RenderMode
 @using Microsoft.AspNetCore.Components.Web.Virtualization
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+
 @using Microsoft.JSInterop
+
 @using Microsoft.Extensions.Localization
 
 @using Microsoft.EntityFrameworkCore
 
 @using Am.Testing.App.Database.Main
 
+@using Am.Testing.Domain.Entities
+@using Am.Testing.Domain.Validations
+
 @using Am.Testing.Web
 @using Am.Testing.Web.Components
+@using Am.Testing.Web.Components.Account
 @using Am.Testing.Web.Components.Layout.BasePage.v1
 
 @using Radzen.Blazor

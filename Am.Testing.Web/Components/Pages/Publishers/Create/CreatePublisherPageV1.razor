@@ -1,12 +1,16 @@
 ﻿@page "/publishers/create/v1"
 
 @using Am.Testing.Domain.Entities
+@using Am.Testing.Domain.Validations
 
 @inherits BasePage
 @inject IStringLocalizer<CreatePublisherPageV1> Localizer
 @inject MainDbContext DbContext
+@inject IdentityProvider IdentityProvider
 
-<h3>@Localizer["CreateNewItem"] Vytvoriť novú položku</h3>
+<PageTitle>Vydavateľstvá</PageTitle>
+PublisherValidator
+<h3>@Localizer["CreateNewItem"]</h3>
 
 <RadzenCard>
 
@@ -76,8 +80,15 @@
             </div>
         </div>
 
-        <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+        <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large" Icon="save" Text="Save" />
         <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+
+        @foreach (var error in errorList)
+        {
+            <RadzenAlert AlertStyle="AlertStyle.Warning">
+                @error
+            </RadzenAlert>
+        }
 
     </RadzenTemplateForm>
 
@@ -88,18 +99,42 @@
 
     private Publisher item = new();
 
+    private List<string> errorList = [];
 
     private async Task OnSubmit(Publisher output)
     {
-        await DbContext.Publishers.AddAsync(output);
-        await DbContext.SaveChangesAsync();
+        PublisherValidator validator = new();
 
-        Navigations.NavigateTo("/authors/index/v1");
+        var result = validator.Validate(output);
+
+        if (result.IsValid)
+        {
+            output.CreatedAt = DateTime.UtcNow;
+            output.CreatedBy = await IdentityProvider.GetLoggedInUserId();
+
+            await DbContext.Publishers.AddAsync(output);
+            await DbContext.SaveChangesAsync();
+
+            Notifications.Notify(NotificationSeverity.Success, "Uložené");
+
+            Navigations.NavigateTo("/authors/index/v1");
+
+        }
+        else
+        {
+            foreach (var item in result.Errors)
+            {
+                errorList.Add(item.ErrorMessage);
+            }
+        }
+       
+
+        
     }
 
     void Cancel()
     {
-        //
+        Navigations.NavigateTo("/publishers/index/v1");
     }
 
 

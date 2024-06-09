@@ -1,5 +1,6 @@
 ﻿@page "/authors/index/v1"
 @using Am.Testing.Domain.Entities
+@using Am.Testing.Web.Components.Filters.Authors
 
 @inherits BasePage
 @inject MainDbContext DbContext
@@ -9,7 +10,7 @@
 
 <div class="d-flex justify-content-end align-items-center">
     <RadzenLink Path="/authors/create/v1">
-        <RadzenButton Text=@Localizer["CreateNew"] />
+        <RadzenButton ButtonStyle="ButtonStyle.Dark" Text=@Localizer["CreateNew"] />
     </RadzenLink>
     
 </div>
@@ -18,9 +19,17 @@
     <Tabs>
         <RadzenTabsItem Text=@Localizer["Cards"]>
 
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <AuthorFilter></AuthorFilter>
+                </div>
+                <div>
+                    <AuthorSorting></AuthorSorting>
+                </div>
+            </div>
+
             <RadzenDataList TItem="Author" Data="items" WrapItems=true>
                 <Template>
-
 
                     <RadzenCard Style="max-width: 200px;">
                         <div class="d-flex justify-content-center">

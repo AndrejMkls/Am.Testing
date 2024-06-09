@@ -1,12 +1,23 @@
 ﻿@page "/authors/create/v1"
 
 @using Am.Testing.Domain.Entities
+@using Am.Testing.Domain.Validations
+@using Am.Testing.Web.Components.Account
 
 @inherits BasePage
+@attribute [Authorize]
 @inject IStringLocalizer<CreateAuthorPageV1> Localizer
 @inject MainDbContext DbContext 
+@inject IWebHostEnvironment WebEnvironment
+@inject IdentityProvider IdentityProvider
 
-<h3>@Localizer["CreateNewItem"] Vytvoriť novú položku</h3>
+<HeadContent>
+    <script src="js/ImagePreviews.js"></script>
+</HeadContent>
+
+<PageTitle>Autori</PageTitle>
+
+<h3>@Localizer["CreateNewItem"]</h3>
 
 <RadzenCard>
 
@@ -18,8 +29,6 @@
             </div>
             <div class="col-xl-6 col-12">
                 <RadzenTextBox Name="FirstName" @bind-Value=@item.FirstName class="w-100" />
-                <RadzenRequiredValidator Component="FirstName" Text="First name is required" Popup=@popup Style="position: absolute" />
-                <RadzenLengthValidator Component="FirstName" Max="50" Text="First name should be at most 10 characters" Popup=@popup Style="position: absolute" />
             </div>
         </div>
 
@@ -29,8 +38,6 @@
             </div>
             <div class="col-xl-6 col-12">
                 <RadzenTextBox Name="LastName" @bind-Value=@item.LastName class="w-100" />
-                <RadzenRequiredValidator Component="LastName" Text="Last name is required" Popup=@popup Style="position: absolute" />
-                <RadzenLengthValidator Component="LastName" Max="50" Text="First name should be at most 10 characters" Popup=@popup Style="position: absolute" />
             </div>
         </div>
 
@@ -66,7 +73,8 @@
                 <RadzenLabel Text="@Localizer["Photo"]" />
             </div>
             <div class="col-xl-6 col-12">
-                <InputFile />
+                <InputFile @ref=photoInput accept="image/*" OnChange="OnPhotoUpload" />
+                <img @ref="photoPreview" id="imgLayout" height="100" />
             </div>
         </div>
 
@@ -76,12 +84,18 @@
             </div>
             <div class="col-xl-6 col-12">
                 <RadzenNumeric Name="BirthYear" @bind-Value=@item.BirthYear class="w-100" />
-                <RadzenNumericRangeValidator Component="BirthYear" Max="@DateTime.Now.Year" Text="Text" Popup=@popup Style="position: absolute" />
             </div>
         </div>
 
-        <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
-        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+        <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large" Icon="save" Text="@Localizer["Save"]" />
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="@Localizer["Cancel"]" Click="@Cancel" />
+
+        @foreach (var error in errorList)
+        {
+            <RadzenAlert AlertStyle="AlertStyle.Warning">
+                @error
+            </RadzenAlert>
+        }
 
     </RadzenTemplateForm>
 
@@ -92,18 +106,81 @@
 
     private Author item = new();
 
+    private IBrowserFile? photoFile;
+    private InputFile? photoInput;
+    private ElementReference photoPreview;
+
+    private long maxFileSize = 1024 * 155;
+
+    private List<string> errorList = [];
+
+    private void OnPhotoUpload(InputFileChangeEventArgs args)
+    {
+        try
+        {
+            var file = args.File;
+            photoFile = file;
+
+            JsRuntime.InvokeVoidAsync("showPreview", photoInput!.Element, photoPreview);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
 
     private async Task OnSubmit(Author output)
     {
-        await DbContext.Authors.AddAsync(output);
-        await DbContext.SaveChangesAsync();
+        output.Photo = await SavePhoto();
 
-        Navigations.NavigateTo("/authors/index/v1");
+        AuthorValidator validator = new();
+
+        var result = validator.Validate(output);
+
+        if (result.IsValid)
+        {
+            output.CreatedAt = DateTime.UtcNow;
+            output.CreatedBy = await IdentityProvider.GetLoggedInUserId(); 
+
+            await DbContext.Authors.AddAsync(output);
+            await DbContext.SaveChangesAsync();
+
+            Notifications.Notify(NotificationSeverity.Success, "Uložené");
+
+            Navigations.NavigateTo("/authors/index/v1");
+        }
+        else
+        {
+            foreach(var item in result.Errors)
+            {
+                errorList.Add(item.ErrorMessage);
+            }
+        }
     }
 
     void Cancel()
     {
-        //
+        Navigations.NavigateTo("/authors/index/v1");
+    }
+
+    private async Task<string> SavePhoto()
+    {
+        string fileName = "";
+
+        if (photoFile is not null)
+        {
+            var trustedFileName = Path.GetRandomFileName();
+            var originalExtension = Path.GetExtension(photoFile.Name);
+
+            fileName = $"{trustedFileName}{originalExtension}";
+
+            var path = Path.Combine(WebEnvironment.WebRootPath, "uploads", fileName);
+
+            await using FileStream fs = new(path, FileMode.Create);
+            await photoFile.OpenReadStream(maxFileSize).CopyToAsync(fs);
+        }
+
+        return fileName;
     }
 
 

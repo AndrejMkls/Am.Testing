@@ -1,0 +1,23 @@
+﻿<RadzenCard>
+    <div class="d-flex justify-content-start align-items-center gap-1">
+        <RadzenLabel>Meno</RadzenLabel>
+        <RadzenTextBox></RadzenTextBox>
+
+        <RadzenLabel>Národnosť</RadzenLabel>
+        <RadzenTextBox></RadzenTextBox>
+
+        <RadzenLabel>Rok narodenia</RadzenLabel>
+
+        <RadzenLabel>od</RadzenLabel>
+        <RadzenNumeric @bind-Value=yearFrom></RadzenNumeric>
+
+        <RadzenLabel>do</RadzenLabel>
+        <RadzenNumeric @bind-Value=yearTo></RadzenNumeric>
+    </div>
+</RadzenCard>
+
+
+@code {
+    private int yearFrom;
+    private int yearTo; 
+}

@@ -14,25 +14,35 @@ namespace Am.Testing.Domain.Validations
         {
             RuleFor(author => author.FullName)
                 .NotEmpty()
-                .MaximumLength(100)
                 .WithMessage("Celé meno je povinné.");
+
+            RuleFor(author => author.FullName)
+                .MaximumLength(100)
+                .WithMessage("Maximálna dĺžka celého mena je 100 znakov.");
 
             RuleFor(author => author.FirstName)
                 .NotEmpty()
-                .MaximumLength(50)
                 .WithMessage("Krstné meno je povinné.");
+
+            RuleFor(author => author.FirstName)
+                .MaximumLength(50)
+                .WithMessage("Maximálna dĺžka krstného mena je 50 znakov.");
 
             RuleFor(author => author.LastName)
                 .NotEmpty()
-                .MaximumLength(50)
                 .WithMessage("Priezvisko je povinné.");
 
+            RuleFor(author => author.LastName)
+               .MaximumLength(50)
+               .WithMessage("Maximálna dĺžka priezviska je 50 znakov.");
+
             RuleFor(author => author.Nationality)
-                .MaximumLength(50);
+                .MaximumLength(50)
+                .WithMessage("Maximálna dĺžka národnosti je 50 znakov.");
 
             RuleFor(author => author.BirthYear)
-                .LessThanOrEqualTo(DateTime.Now.Year);
-
+                .LessThanOrEqualTo(DateTime.Now.Year)
+                .WithMessage("Rok narodenia nesmie byť väčší alebo rovnaký ako aktuály rok.");
 
 
         }
