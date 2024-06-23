@@ -42,8 +42,11 @@ namespace Am.Testing.Domain.Validations
 
             RuleFor(author => author.BirthYear)
                 .LessThanOrEqualTo(DateTime.Now.Year)
-                .WithMessage("Rok narodenia nesmie byť väčší alebo rovnaký ako aktuály rok.");
+                .WithMessage("Rok narodenia nesmie byť väčší alebo rovnaký ako aktuálny rok.");
 
+            RuleFor(author => author.BirthYear)
+               .NotEqual(0)
+               .WithMessage("Rok narodenia nesmie byť rovný 0.");
 
         }
     }

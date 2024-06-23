@@ -115,6 +115,8 @@
 
     private async Task OnSubmit(Publisher output)
     {
+        errorList.Clear();
+
         PublisherValidator validator = new();
 
         var result = validator.Validate(output);
@@ -122,6 +124,13 @@
         if (result.IsValid)
         {
             var user = await IdentityProvider.GetLoggedInUserId();
+
+            output.Name = output.Name.Trim();
+            output.Email = output.Email?.Trim();
+            output.PhoneNumber = output.PhoneNumber?.Trim();
+            output.Website = output.Website?.Trim();
+            output.PublisherType = output.PublisherType?.Trim();
+            output.Notes = output.Notes?.Trim();
 
             await DbContext.Publishers.Where(x => x.Id == output.Id)
                                       .ExecuteUpdateAsync(s => s.SetProperty(p => p.Name, output.Name)

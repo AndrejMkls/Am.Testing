@@ -110,7 +110,7 @@
     private InputFile? photoInput;
     private ElementReference photoPreview;
 
-    private long maxFileSize = 1024 * 155;
+    private long maxFileSize = 1024 * 5155;
 
     private List<string> errorList = [];
 
@@ -118,7 +118,24 @@
     {
         try
         {
+            errorList.Clear();
+
             var file = args.File;
+
+            if (file.ContentType.StartsWith("image") == false)
+            {
+                Notifications.Notify(NotificationSeverity.Warning, "Súbor nemá správny formát.");
+                errorList.Add("Súbor nemá správny formát.");
+                return;
+            }
+
+            if (file.Size > maxFileSize)
+            {
+                Notifications.Notify(NotificationSeverity.Warning, "Súbor je príliš veľký.");
+                errorList.Add("Súbor je príliš veľký.");
+                return;
+            }
+           
             photoFile = file;
 
             JsRuntime.InvokeVoidAsync("showPreview", photoInput!.Element, photoPreview);
@@ -131,6 +148,8 @@
 
     private async Task OnSubmit(Author output)
     {
+        errorList.Clear();
+
         output.Photo = await SavePhoto();
 
         AuthorValidator validator = new();
@@ -139,6 +158,12 @@
 
         if (result.IsValid)
         {
+            output.FullName = output.FullName.Trim();
+            output.FirstName = output.FirstName.Trim(); 
+            output.LastName = output.LastName.Trim();
+            output.Biography = output.Biography?.Trim();
+            output.Nationality = output.Nationality?.Trim();
+
             output.CreatedAt = DateTime.UtcNow;
             output.CreatedBy = await IdentityProvider.GetLoggedInUserId(); 
 

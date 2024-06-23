@@ -117,34 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Authors" xml:space="preserve">
+    <value>Autori</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Zrušiť</value>
+  </data>
+  <data name="CoverType" xml:space="preserve">
+    <value>Typ obalu</value>
   </data>
   <data name="CreateNewItem" xml:space="preserve">
     <value>Vytvoriť novú položku</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
+  <data name="Edition" xml:space="preserve">
+    <value>Edícia</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Názov</value>
+  <data name="Genres" xml:space="preserve">
+    <value>Žánre</value>
   </data>
-  <data name="Notes" xml:space="preserve">
-    <value>Poznámky</value>
+  <data name="Height" xml:space="preserve">
+    <value>Výška</value>
   </data>
-  <data name="PhoneNumber" xml:space="preserve">
-    <value>Tel. číslo</value>
+  <data name="ISBN" xml:space="preserve">
+    <value>ISBN</value>
   </data>
-  <data name="PublisherType" xml:space="preserve">
-    <value>Typ vydavateľstva</value>
+  <data name="Language" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="PageCount" xml:space="preserve">
+    <value>Počet strán</value>
+  </data>
+  <data name="PublicationDate" xml:space="preserve">
+    <value>Dátum vydania</value>
+  </data>
+  <data name="Publisher" xml:space="preserve">
+    <value>Vydavateľstvo</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Uložiť</value>
   </data>
-  <data name="Website" xml:space="preserve">
-    <value>Stránka</value>
+  <data name="Summary" xml:space="preserve">
+    <value>Zhrnutie</value>
   </data>
-  <data name="YearFounded" xml:space="preserve">
-    <value>Rok založenia</value>
+  <data name="Thickness" xml:space="preserve">
+    <value>Hrúbka</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titul</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Šírka</value>
   </data>
 </root>

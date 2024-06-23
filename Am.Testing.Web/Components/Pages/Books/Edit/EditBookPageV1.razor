@@ -1,9 +1,257 @@
 ﻿@page "/books/{BookId:long}/v1"
 
+@using Am.Testing.Domain.Entities
+
+@inherits BasePage
+@inject IStringLocalizer<EditBookPageV1> Localizer
+@inject MainDbContext DbContext
+@inject IdentityProvider IdentityProvider
+
 <h3>EditBookPageV1</h3>
+
+<RadzenCard>
+
+    <RadzenTemplateForm Data="@item" Submit="@(async (Book args) => { await OnSubmit(args); })">
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Title"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox @bind-Value=@item.Title class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["ISBN"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox @bind-Value=@item.ISBN class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Authors"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenDropDown TValue="ICollection<Author>" Data="authors" @bind-Value=item.Authors
+                                Multiple="true" AllowClear="false"
+                                Placeholder="Vyberte autorov" Chips="true"
+                                TextProperty="@nameof(Author.FullName)">
+
+                </RadzenDropDown>
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Genres"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenDropDown TValue="ICollection<Genre>" Data="genres" @bind-Value=item.Genres
+                                Multiple="true" AllowClear="false"
+                                Placeholder="Vyberte žáner" Chips="true"
+                                TextProperty="@nameof(Genre.Name)">
+
+                </RadzenDropDown>
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Publisher"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenDropDown TValue="long" Data="publishers" @bind-Value="item.PublisherId"
+                                Multiple="false" AllowClear="false"
+                                Placeholder="Vyberte vydavateľstvo"
+                                ValueProperty="@nameof(Publisher.Id)" TextProperty="@nameof(Publisher.Name)">
+
+                </RadzenDropDown>
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["PublicationDate"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenDatePicker @bind-Value=@item.PublicationDate class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Edition"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox @bind-Value=@item.Edition class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Summary"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextArea @bind-Value=@item.Summary class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Language"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenTextBox @bind-Value=@item.Language class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["PageCount"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenNumeric @bind-Value=@item.PageCount class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Height"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenNumeric @bind-Value=@item.Height class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Width"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenNumeric @bind-Value=@item.Width class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["Thickness"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenNumeric @bind-Value=@item.Thickness class="w-100" />
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-xl-3 col-12">
+                <RadzenLabel Text="@Localizer["CoverType"]" />
+            </div>
+            <div class="col-xl-6 col-12">
+                <RadzenDropDown TValue="long" Data="coverTypes" @bind-Value=item.CoverTypeId
+                                Multiple="false" AllowClear="false"
+                                Placeholder="Vyberte vydavateľstvo"
+                                ValueProperty="@nameof(CoverType.Id)" TextProperty="@nameof(CoverType.Name)">
+
+                </RadzenDropDown>
+            </div>
+        </div>
+
+        <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+
+    </RadzenTemplateForm>
+
+</RadzenCard>
 
 @code {
 
     [Parameter]
     public long BookId { get; set; }
+
+    private Book item = new();
+
+    private IEnumerable<Author> authors = [];
+    private IEnumerable<Genre> genres = [];
+    private IEnumerable<Publisher> publishers = [];
+    private IEnumerable<CoverType> coverTypes = [];
+
+    private List<string> errorList = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var query = DbContext.Authors;
+        authors = await query.ToListAsync();
+
+        genres = await DbContext.Genres.ToListAsync();
+        publishers = await DbContext.Publishers.ToListAsync();
+        coverTypes = await DbContext.CoverTypes.ToListAsync();
+
+        var found = await DbContext.Books
+                                   .Include(p => p.Authors)
+                                   .Include(p => p.Genres)
+                                   .FirstOrDefaultAsync(x => x.Id == BookId);
+
+        if (found is not null)
+        {
+            item = found;
+        }
+    }
+
+    private async Task OnSubmit(Book output)
+    {
+        errorList.Clear();
+
+        BookValidator validator = new();
+        var result = validator.Validate(output);
+
+        if (result.IsValid)
+        {       
+            var updatedAt = DateTime.UtcNow;
+            var updatedBy = await IdentityProvider.GetLoggedInUserId();
+
+            output.Title = output.Title.Trim();
+            output.ISBN = output.ISBN?.Trim();
+            output.Edition = output.Edition?.Trim();
+            output.Summary = output.Summary?.Trim();
+            output.Language = output.Language.Trim();
+
+            await DbContext.Books.Where(x => x.Id == output.Id)
+                                 .ExecuteUpdateAsync(s => s.SetProperty(p => p.Title, output.Title)
+                                                           .SetProperty(p => p.ISBN, output.ISBN)
+                                                           .SetProperty(p => p.PublisherId, output.PublisherId)
+                                                           .SetProperty(p => p.PublicationDate, output.PublicationDate)
+                                                           .SetProperty(p => p.Edition, output.Edition)
+                                                           .SetProperty(p => p.Summary, output.Summary)
+                                                           .SetProperty(p => p.Language, output.Language)
+                                                           .SetProperty(p => p.PageCount, output.PageCount)
+                                                           .SetProperty(p => p.Height, output.Height)
+                                                           .SetProperty(p => p.Width, output.Width)
+                                                           .SetProperty(p => p.CoverTypeId, output.CoverTypeId)
+                                                           .SetProperty(p => p.UpdatedAt, updatedAt)
+                                                           .SetProperty(p => p.UpdatedBy, updatedBy)
+                                 );
+
+            await DbContext.SaveChangesAsync();
+
+            Notifications.Notify(NotificationSeverity.Success, "Uložené");
+        }
+        else
+        {
+            foreach (var item in result.Errors)
+            {
+                errorList.Add(item.ErrorMessage);
+            }
+        }
+       
+
+        Navigations.NavigateTo("/books/index/v1");
+    }
+
+    void Cancel()
+    {
+        //
+    }
 }

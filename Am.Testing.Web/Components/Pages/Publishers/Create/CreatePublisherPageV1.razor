@@ -9,7 +9,6 @@
 @inject IdentityProvider IdentityProvider
 
 <PageTitle>Vydavateľstvá</PageTitle>
-PublisherValidator
 <h3>@Localizer["CreateNewItem"]</h3>
 
 <RadzenCard>
@@ -80,8 +79,8 @@ PublisherValidator
             </div>
         </div>
 
-        <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large" Icon="save" Text="Save" />
-        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" />
+        <RadzenButton ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large" Icon="save" Text="@Localizer["Save"]" />
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="@Localizer["Cancel"]" Click="@Cancel" />
 
         @foreach (var error in errorList)
         {
@@ -103,12 +102,21 @@ PublisherValidator
 
     private async Task OnSubmit(Publisher output)
     {
+        errorList.Clear();
+
         PublisherValidator validator = new();
 
         var result = validator.Validate(output);
 
         if (result.IsValid)
         {
+            output.Name = output.Name.Trim();
+            output.Email = output.Email?.Trim();
+            output.PhoneNumber = output.PhoneNumber?.Trim();
+            output.Website = output.Website?.Trim();
+            output.PublisherType = output.PublisherType?.Trim();
+            output.Notes = output.Notes?.Trim();
+
             output.CreatedAt = DateTime.UtcNow;
             output.CreatedBy = await IdentityProvider.GetLoggedInUserId();
 
@@ -117,7 +125,7 @@ PublisherValidator
 
             Notifications.Notify(NotificationSeverity.Success, "Uložené");
 
-            Navigations.NavigateTo("/authors/index/v1");
+            Navigations.NavigateTo("/publishers/index/v1");
 
         }
         else

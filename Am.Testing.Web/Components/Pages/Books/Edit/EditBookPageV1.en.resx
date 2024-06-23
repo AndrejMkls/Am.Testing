@@ -117,34 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Cancel" xml:space="preserve">
-    <value>Zrušiť</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
-  <data name="CreateNewItem" xml:space="preserve">
-    <value>Vytvoriť novú položku</value>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create new </value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Názov</value>
+  <data name="Title" xml:space="preserve">
+    <value>Authors</value>
   </data>
-  <data name="Notes" xml:space="preserve">
-    <value>Poznámky</value>
-  </data>
-  <data name="PhoneNumber" xml:space="preserve">
-    <value>Tel. číslo</value>
-  </data>
-  <data name="PublisherType" xml:space="preserve">
-    <value>Typ vydavateľstva</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Uložiť</value>
-  </data>
-  <data name="Website" xml:space="preserve">
-    <value>Stránka</value>
-  </data>
-  <data name="YearFounded" xml:space="preserve">
-    <value>Rok založenia</value>
+  <data name="Tree" xml:space="preserve">
+    <value>Tree</value>
   </data>
 </root>

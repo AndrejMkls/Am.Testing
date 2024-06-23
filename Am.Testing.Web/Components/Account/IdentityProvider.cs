@@ -12,8 +12,12 @@ namespace Am.Testing.Web.Components.Account
             var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             if (authState.User?.Identity?.IsAuthenticated == true)
             {
-                var currentUser = authState.User.Claims.FirstOrDefault(x => x.ValueType == ClaimTypes.NameIdentifier)?.Value;
-                return currentUser;
+                var claimNameIdentifier = authState.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+                if (claimNameIdentifier != null)
+                {
+                    var currentUser = claimNameIdentifier.Value;
+                    return currentUser;
+                }
             }
 
             return null;

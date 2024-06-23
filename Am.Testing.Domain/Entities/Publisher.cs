@@ -43,5 +43,8 @@ namespace Am.Testing.Domain.Entities
 
         [Column("notes")]
         public string? Notes { get; set; }
+
+        [Column("logo")]
+        public string? logo { get; set; }
     }
 }

@@ -73,8 +73,16 @@
                 <div class="col-xl-3 col-12">
                     <RadzenLabel Text="@Localizer["Photo"]" />
                 </div>
-                <div class="col-xl-6 col-12">                   
-                    <img @ref="photoPreview" src="@($"/uploads/{item.Photo}")" id="imgLayout" height="100" />
+                <div class="col-xl-6 col-12">  
+                    @if (item.Photo is not null)
+                    {
+                        <img @ref="photoPreview" src="@($"/uploads/{item.Photo}")" id="imgLayout" height="100" />
+                    }
+                    else
+                    {
+                        <img @ref="photoPreview" id="imgLayout" height="100" />
+                    }
+                    
                     <InputFile @ref=photoInput accept="image/*" OnChange="OnPhotoUpload" />
                 </div>
             </div>
@@ -88,8 +96,18 @@
                 </div>
             </div>
 
-            <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="@Localizer["Save"]" />
-            <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="@Localizer["Cancel"]" Click="@Cancel" />
+            <div class="d-flex justify-content-between">
+                <div>
+                    <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Medium" Icon="save" Text="@Localizer["Save"]" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Icon="cancel" Text="@Localizer["Cancel"]" Click="@Cancel" />
+                </div>
+
+                <div>
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Medium" Icon="delete" Text="@Localizer["Remove"]" Click="@(async() => await OnDelete(item.Id))" />
+                </div>
+            </div>
+
+           
 
             @foreach (var error in errorList)
             {
@@ -115,7 +133,7 @@
     private InputFile? photoInput;
     private ElementReference photoPreview;
 
-    private long maxFileSize = 1024 * 155;
+    private long maxFileSize = 1024 * 5155;
 
     private List<string> errorList = [];
 
@@ -147,6 +165,8 @@
 
     private async Task OnSubmit(Author output)
     {
+        errorList.Clear();
+
         var newPhoto = await SavePhoto();
 
         if (newPhoto != string.Empty)
@@ -162,10 +182,13 @@
         {
             var user = await IdentityProvider.GetLoggedInUserId();
 
+            output.Biography = output.Biography?.Trim();
+            output.Nationality = output.Nationality?.Trim();
+
             await DbContext.Authors.Where(x => x.Id == output.Id)
-                                   .ExecuteUpdateAsync(s => s.SetProperty(p => p.FullName, output.FullName)
-                                                             .SetProperty(p => p.FirstName, output.FirstName)
-                                                             .SetProperty(p => p.LastName, output.LastName)
+                                   .ExecuteUpdateAsync(s => s.SetProperty(p => p.FullName, output.FullName.Trim())
+                                                             .SetProperty(p => p.FirstName, output.FirstName.Trim())
+                                                             .SetProperty(p => p.LastName, output.LastName.Trim())
                                                              .SetProperty(p => p.Biography, output.Biography)
                                                              .SetProperty(p => p.Nationality, output.Nationality)
                                                              .SetProperty(p => p.Photo, output.Photo)
@@ -173,7 +196,7 @@
                                                              .SetProperty(p => p.UpdatedAt, DateTime.UtcNow)
                                                              .SetProperty(p => p.UpdatedBy, user)
                                    );
-                                                             
+
             await DbContext.SaveChangesAsync();
 
             Notifications.Notify(NotificationSeverity.Success, "Uložené");
@@ -188,7 +211,23 @@
             }
         }
 
-        
+
+    }
+
+    private async Task OnDelete(long id)
+    {
+        var user = await IdentityProvider.GetLoggedInUserId();
+
+        await DbContext.Authors.Where(x => x.Id == id)
+                               .ExecuteUpdateAsync(s => s.SetProperty(p => p.DeletedAt, DateTime.UtcNow)
+                                                         .SetProperty(p => p.DeletedBy, user)
+                               );
+
+        await DbContext.SaveChangesAsync();
+
+        Notifications.Notify(NotificationSeverity.Success, "Vymazané");
+
+        Navigations.NavigateTo("/authors/index/v1");
     }
 
     void Cancel()

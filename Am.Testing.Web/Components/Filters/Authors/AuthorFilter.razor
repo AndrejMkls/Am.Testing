@@ -1,18 +1,24 @@
 ﻿<RadzenCard>
-    <div class="d-flex justify-content-start align-items-center gap-1">
-        <RadzenLabel>Meno</RadzenLabel>
-        <RadzenTextBox></RadzenTextBox>
+    <div class="d-flex justify-content-start align-items-center flex-wrap gap-1">
+        <div class="d-flex justify-content-start align-items-center gap-1">
+            <RadzenLabel>Meno</RadzenLabel>
+            <RadzenTextBox></RadzenTextBox>
+        </div>
 
-        <RadzenLabel>Národnosť</RadzenLabel>
-        <RadzenTextBox></RadzenTextBox>
+        <div class="d-flex justify-content-start align-items-center gap-1">
+            <RadzenLabel>Národnosť</RadzenLabel>
+            <RadzenTextBox></RadzenTextBox>
+        </div>
 
-        <RadzenLabel>Rok narodenia</RadzenLabel>
+        <div class="d-flex justify-content-start align-items-center gap-1">
+            <RadzenLabel>Rok narodenia</RadzenLabel>
 
-        <RadzenLabel>od</RadzenLabel>
-        <RadzenNumeric @bind-Value=yearFrom></RadzenNumeric>
+            <RadzenLabel>od</RadzenLabel>
+            <RadzenNumeric @bind-Value=yearFrom Style="max-width:70px;"></RadzenNumeric>
 
-        <RadzenLabel>do</RadzenLabel>
-        <RadzenNumeric @bind-Value=yearTo></RadzenNumeric>
+            <RadzenLabel>do</RadzenLabel>
+            <RadzenNumeric @bind-Value=yearTo Style="max-width:70px;"></RadzenNumeric>
+        </div>
     </div>
 </RadzenCard>
 
